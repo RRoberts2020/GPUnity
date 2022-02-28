@@ -2,24 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CharacterController))]
+
 
 public class PlayerMovement : MonoBehaviour
 {
-    
-    public float MovingSpeed = 6;
-    public float RotationSpeed = 90;
-    public float GravityForce = -20f;
-    public float JumpSpeed = 15;
 
-    CharacterController Player;
+    //Player movement
+    private float MovingSpeed = 6;
+    private float RotationSpeed = 90;
+    private float GravityForce = -20;
+    private float JumpSpeed = 15;
+
     Vector3 MoveVelocity;
     Vector3 TurningVelocity;
 
-    void Awake()
-    {
-        Player = GetComponent<CharacterController>();
-    }
+    CharacterController Player;
 
     void Update()
     {
