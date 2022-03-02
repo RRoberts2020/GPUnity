@@ -57,13 +57,13 @@ public class PlayerMovementV2 : MonoBehaviour
         if(IsPlayerGrounded)
         {
             //Idle, Walk and Run check
-            if (MoveDircection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift))
+            if (MoveDircection != Vector3.zero && !Input.GetKey(KeyCode.LeftShift)) //!Input.GetButtonDown("Run"))
             {
                 //Walking check
                 Walk();
                 //Debug.Log("You are walking");
             }
-            else if (MoveDircection != Vector3.zero && Input.GetKey(KeyCode.LeftShift))
+            else if (MoveDircection != Vector3.zero && Input.GetKey(KeyCode.LeftShift)) //Input.GetButtonDown("Run"))
             {
                 //Running check
                 Run();

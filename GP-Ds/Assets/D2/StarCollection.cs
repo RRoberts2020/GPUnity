@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CoinCollection : MonoBehaviour
+public class StarCollection : MonoBehaviour
 {
-    private int coins;
+    private int Stars;
 
     // Start is called before the first frame update
     void Start()
     {
-        coins = 0;
+        Stars = 0;
     }
 
     // Update is called once per frame
@@ -17,17 +17,17 @@ public class CoinCollection : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.C))
         {
-            Debug.Log("You have: " + coins + " coins");
+            Debug.Log("You have: " + Stars + " Stars");
         }
 
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider Star)
     {
-       if(other.gameObject.tag=="Coin")
+       if(Star.gameObject.tag== "Stars")
         {
-            coins++;
-            other.gameObject.SetActive(false);
+            Stars++;
+            Star.gameObject.SetActive(false);
         }
 
     }
