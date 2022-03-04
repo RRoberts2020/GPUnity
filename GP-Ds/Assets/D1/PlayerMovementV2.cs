@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovementV2 : MonoBehaviour
 {
-    //Player animation
+
+
 
 
     //Player movement
@@ -27,11 +29,14 @@ public class PlayerMovementV2 : MonoBehaviour
     //Player animation
     private Animator anim;
 
+
     private void Start()
     {
+
         Player = GetComponent<CharacterController>();
         anim = GetComponentInChildren<Animator>();
     }
+
 
     private void Update()
     {

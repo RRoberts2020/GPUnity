@@ -17,7 +17,7 @@ public class ManualFreeView : MonoBehaviour
 
     private void Update()
     {
-        Rotate();
+       Rotate();
     }
 
     private void Rotate()
