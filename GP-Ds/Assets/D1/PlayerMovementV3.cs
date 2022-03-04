@@ -95,24 +95,29 @@ public class PlayerMovementV3 : MonoBehaviour
        bool isWalking = anim.GetBool("isWalking");
        bool isRunning = anim.GetBool("isRunning");
 
+        //If I want to walk
         if (isMovementPressed && !isWalking)
         {
             anim.SetBool("isWalking", true);
-            anim.SetBool("isJumping", false);
 
         }
+        //If I don't want to walk
         else if (!isMovementPressed && isWalking)
         {
             anim.SetBool("isWalking", false);
+            anim.SetBool("isJumping", false);
         }
+        //If I want to run
         if (isMovementPressed && !isRunning && isRunPressed)
         {
             anim.SetBool("isRunning", true);
             anim.SetBool("isJumping", false);
         }
+        //If I don't want to run
         else if (!isMovementPressed || !isRunning || !isRunPressed)
         {
             anim.SetBool("isRunning", false);
+            anim.SetBool("isJumping", false);
 
         }
 
