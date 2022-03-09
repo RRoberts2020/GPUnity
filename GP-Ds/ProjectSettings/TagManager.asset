@@ -7,6 +7,8 @@ TagManager:
   - Shadow
   - Collide
   - Stars
+  - LeftDoor
+  - RightDoor
   layers:
   - Default
   - TransparentFX
