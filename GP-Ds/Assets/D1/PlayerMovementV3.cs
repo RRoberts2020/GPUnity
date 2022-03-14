@@ -33,15 +33,15 @@ public class PlayerMovementV3 : MonoBehaviour
         anim = GetComponent<Animator>();
 
        // PlayerController.CharacterControls.Move.started += onMovementInput;
-        PlayerController.CharacterControls.Move.performed += onMovementInput;
-        PlayerController.CharacterControls.Move.canceled += onMovementInput;
+        PlayerController.CharacterControls.Move.performed += OnMovementInput;
+        PlayerController.CharacterControls.Move.canceled += OnMovementInput;
         PlayerController.CharacterControls.Run.started += OnRun;
         PlayerController.CharacterControls.Run.canceled += OnRun;
 
     }
 
 
-    void onMovementInput(InputAction.CallbackContext context)
+    void OnMovementInput(InputAction.CallbackContext context)
     {
         currentMovementInput = context.ReadValue<Vector2>();
         currentMovement.x = currentMovementInput.x;
@@ -72,8 +72,9 @@ public class PlayerMovementV3 : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
-                Jump();
                 anim.SetBool("isJumping", true);
+                Jump();
+               
             }
 
         }
@@ -86,8 +87,19 @@ public class PlayerMovementV3 : MonoBehaviour
     private void Jump()
     {
         JumpVelocity.y = Mathf.Sqrt(JumpHeight * -2 * Gravity);
-        
+
     }
+
+    void OnLeftAttack()
+    {
+
+            if (Input.GetButtonDown("LeftAttack"))
+            {
+                anim.SetBool("isLeftAttack", true);
+                Debug.Log("Left Attack triggered");
+            }
+    }
+
 
 
     void HandleAnimation()
@@ -99,6 +111,7 @@ public class PlayerMovementV3 : MonoBehaviour
         if (isMovementPressed && !isWalking)
         {
             anim.SetBool("isWalking", true);
+            anim.SetBool("isLeftAttack", false);
 
         }
         //If I don't want to walk
@@ -106,22 +119,23 @@ public class PlayerMovementV3 : MonoBehaviour
         {
             anim.SetBool("isWalking", false);
             anim.SetBool("isJumping", false);
+            anim.SetBool("isLeftAttack", false);
         }
         //If I want to run
         if (isMovementPressed && !isRunning && isRunPressed)
         {
             anim.SetBool("isRunning", true);
             anim.SetBool("isJumping", false);
+            anim.SetBool("isLeftAttack", false);
         }
         //If I don't want to run
         else if (!isMovementPressed || !isRunning || !isRunPressed)
         {
             anim.SetBool("isRunning", false);
             anim.SetBool("isJumping", false);
+            anim.SetBool("isLeftAttack", false);
 
         }
-
-        //Find a way to a real working jump condistion
 
     }
 
@@ -141,6 +155,8 @@ public class PlayerMovementV3 : MonoBehaviour
         InnerCharacterController.Move(localapplyedmovement * Time.deltaTime);
 
         OnJump();
+
+        OnLeftAttack();
 
     }
 

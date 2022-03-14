@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,25 +6,25 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
 
-    PlayerGamepadInput PlayerController;
-    CharacterController InnerCharacterController;
-    Animator anim;
-
     public AudioSource OpenDoorSound;
     public GameObject LeftDoor;
     public Animator LD;
-    public Animator RD;
     public GameObject RightDoor;
+    public Animator RD;
     public bool EnterTrigger;
-    public bool ButtonToOepen;
-    public bool DoorIsOpen;
+    public bool IsDoorOpen;
+    public GameObject OpenLight;
+    public GameObject ClosedLight;
+    public GameObject CutcutsceneCam;
+    public GameObject NormalCam;
 
-    static int active;
 
+    static int DoorState;
+    
 
     void Start()
     {
-        active = 0;
+        DoorState = 0;
 
 
         LeftDoor = GameObject.FindGameObjectWithTag("LeftDoor");
@@ -34,30 +35,12 @@ public class DoorController : MonoBehaviour
 
     void Update()
     {
-
         if (EnterTrigger)
         {
             DoorActive();
+            StartCoroutine(LightTimer());
+            StartCoroutine(CutSceneTimer());
         }
-
-        //if (EnterTrigger == true)
-        //{
-
-        //}
-
-        //if (ButtonToOepen == true)
-        //{
-
-        //}
-
-        //if (DoorIsOpen == true)
-        //{
-        //    anim.SetBool("Open", true);
-        //}
-        //else if (DoorIsOpen == false)
-        //{
-        //    anim.SetBool("Closed", true);
-        //}
     }
     
 
@@ -67,9 +50,7 @@ public class DoorController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             EnterTrigger = true;
-            
-            
-
+ 
         }
     }
 
@@ -79,40 +60,82 @@ public class DoorController : MonoBehaviour
         {
             EnterTrigger = false;
 
-
-
         }
     }
 
     void DoorActive()
     {
-        if (Input.GetButtonDown("Submit"))
+        if (Input.GetButtonDown("LeftAttack") && EnterTrigger == true)
         {
-            active++;
-
-            if (active == 1)
+            DoorState++;
+            
+            if (DoorState == 1)
             {
                 LD.SetBool("Open", true);
                 RD.SetBool("Open", true);
                 LD.SetBool("Closed", false);
                 RD.SetBool("Closed", false);
+               
+                IsDoorOpen = true;
 
             }
 
-            if (active == 2)
+            if (DoorState == 2)
             {
                 LD.SetBool("Open", false);
                 RD.SetBool("Open", false);
                 LD.SetBool("Closed", true);
                 RD.SetBool("Closed", true);
 
-                active = 0;
+                IsDoorOpen = false;
+
+                DoorState = 0;
 
             }
 
 
+            OpenDoorSound.Play();
+
+        }
+        
+    }
+
+    IEnumerator LightTimer()
+    {
+        if (IsDoorOpen == true)
+        {
+            yield return new WaitForSeconds(2.5f);
+            OpenLight.SetActive(true);
+            ClosedLight.SetActive(false);
         }
 
+        if (IsDoorOpen == false)
+        {
+            yield return new WaitForSeconds(2.5f);
+            OpenLight.SetActive(false);
+            ClosedLight.SetActive(true);
+        }
     }
-    //OpenDoorSound.Play();
+
+    IEnumerator CutSceneTimer()
+    {
+        if (IsDoorOpen == true)
+        {
+            CutcutsceneCam.SetActive(true);
+            NormalCam.SetActive(false);
+            yield return new WaitForSeconds(2.5f);
+            CutcutsceneCam.SetActive(false);
+            NormalCam.SetActive(true);
+        }
+
+        if (IsDoorOpen == false)
+        {
+            CutcutsceneCam.SetActive(true);
+            NormalCam.SetActive(false);
+            yield return new WaitForSeconds(2.5f);
+            CutcutsceneCam.SetActive(false);
+            NormalCam.SetActive(true);
+        }
+    }
+
 }
