@@ -25,6 +25,10 @@ public class ManualFreeView : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * MouseSensitivity * Time.deltaTime;
 
         parent.Rotate(Vector3.up, mouseX);
+
+        float mouseY = Input.GetAxis("Mouse Y") * MouseSensitivity * Time.deltaTime;
+
+        parent.Rotate(Vector3.down, mouseY);
     }
 
 }

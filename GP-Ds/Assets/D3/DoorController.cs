@@ -26,11 +26,11 @@ public class DoorController : MonoBehaviour
     {
         DoorState = 0;
 
-
         LeftDoor = GameObject.FindGameObjectWithTag("LeftDoor");
         LD = LeftDoor.GetComponent<Animator>();
         RightDoor = GameObject.FindGameObjectWithTag("RightDoor");
         RD = RightDoor.GetComponent<Animator>();
+
     }
 
     void Update()
@@ -50,7 +50,7 @@ public class DoorController : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             EnterTrigger = true;
- 
+
         }
     }
 
@@ -65,39 +65,41 @@ public class DoorController : MonoBehaviour
 
     void DoorActive()
     {
-        if (Input.GetButtonDown("LeftAttack") && EnterTrigger == true)
-        {
-            DoorState++;
-            
-            if (DoorState == 1)
+
+            if (Input.GetButtonDown("LeftAttack") && EnterTrigger == true)
             {
-                LD.SetBool("Open", true);
-                RD.SetBool("Open", true);
-                LD.SetBool("Closed", false);
-                RD.SetBool("Closed", false);
-               
-                IsDoorOpen = true;
+                DoorState++;
+
+                if (DoorState == 1)
+                {
+                    LD.SetBool("Open", true);
+                    RD.SetBool("Open", true);
+                    LD.SetBool("Closed", false);
+                    RD.SetBool("Closed", false);
+                    
+                    IsDoorOpen = true;
+                    EnterTrigger = false;
 
             }
 
-            if (DoorState == 2)
-            {
-                LD.SetBool("Open", false);
-                RD.SetBool("Open", false);
-                LD.SetBool("Closed", true);
-                RD.SetBool("Closed", true);
+                if (DoorState == 2)
+                {
+                    LD.SetBool("Open", false);
+                    RD.SetBool("Open", false);
+                    LD.SetBool("Closed", true);
+                    RD.SetBool("Closed", true);
 
-                IsDoorOpen = false;
+                    IsDoorOpen = false;
+                    EnterTrigger = false;
 
-                DoorState = 0;
+                    DoorState = 0;
+
+                }
+
+
+                OpenDoorSound.Play();
 
             }
-
-
-            OpenDoorSound.Play();
-
-        }
-        
     }
 
     IEnumerator LightTimer()
@@ -121,20 +123,24 @@ public class DoorController : MonoBehaviour
     {
         if (IsDoorOpen == true)
         {
+           
             CutcutsceneCam.SetActive(true);
             NormalCam.SetActive(false);
             yield return new WaitForSeconds(2.5f);
             CutcutsceneCam.SetActive(false);
             NormalCam.SetActive(true);
+
         }
 
         if (IsDoorOpen == false)
         {
+
             CutcutsceneCam.SetActive(true);
             NormalCam.SetActive(false);
             yield return new WaitForSeconds(2.5f);
             CutcutsceneCam.SetActive(false);
             NormalCam.SetActive(true);
+
         }
     }
 
