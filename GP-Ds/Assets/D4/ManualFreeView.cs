@@ -5,6 +5,7 @@ using UnityEngine;
 public class ManualFreeView : MonoBehaviour
 {
 
+
     [SerializeField] private float MouseSensitivity;
 
     private Transform parent;

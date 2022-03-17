@@ -9,6 +9,8 @@ TagManager:
   - Stars
   - LeftDoor
   - RightDoor
+  - Enemy
+  - FocusTrigger
   layers:
   - Default
   - TransparentFX

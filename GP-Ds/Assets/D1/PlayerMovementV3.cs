@@ -90,12 +90,12 @@ public class PlayerMovementV3 : MonoBehaviour
 
     }
 
-    void OnLeftAttack()
+    void OnInteract()
     {
 
-            if (Input.GetButtonDown("LeftAttack"))
+            if (Input.GetButtonDown("Interact"))
             {
-                anim.SetBool("isLeftAttack", true);
+                anim.SetBool("isInteract", true);
                 Debug.Log("Left Attack triggered");
             }
     }
@@ -111,7 +111,7 @@ public class PlayerMovementV3 : MonoBehaviour
         if (isMovementPressed && !isWalking)
         {
             anim.SetBool("isWalking", true);
-            anim.SetBool("isLeftAttack", false);
+            anim.SetBool("isInteract", false);
 
         }
         //If I don't want to walk
@@ -119,21 +119,21 @@ public class PlayerMovementV3 : MonoBehaviour
         {
             anim.SetBool("isWalking", false);
             anim.SetBool("isJumping", false);
-            anim.SetBool("isLeftAttack", false);
+            anim.SetBool("isInteract", false);
         }
         //If I want to run
         if (isMovementPressed && !isRunning && isRunPressed)
         {
             anim.SetBool("isRunning", true);
             anim.SetBool("isJumping", false);
-            anim.SetBool("isLeftAttack", false);
+            anim.SetBool("isInteract", false);
         }
         //If I don't want to run
         else if (!isMovementPressed || !isRunning || !isRunPressed)
         {
             anim.SetBool("isRunning", false);
             anim.SetBool("isJumping", false);
-            anim.SetBool("isLeftAttack", false);
+            anim.SetBool("isInteract", false);
 
         }
 
@@ -156,7 +156,7 @@ public class PlayerMovementV3 : MonoBehaviour
 
         OnJump();
 
-        OnLeftAttack();
+        OnInteract();
 
     }
 

@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour
+public class DoorClosed : MonoBehaviour
 {
 
     public AudioSource OpenDoorSound;
@@ -20,7 +19,7 @@ public class DoorController : MonoBehaviour
 
 
     static int DoorState;
-    
+
 
     void Start()
     {
@@ -42,7 +41,7 @@ public class DoorController : MonoBehaviour
             StartCoroutine(CutSceneTimer());
         }
     }
-    
+
 
 
     void OnTriggerEnter(Collider other)
@@ -66,40 +65,40 @@ public class DoorController : MonoBehaviour
     void DoorActive()
     {
 
-            if (Input.GetButtonDown("LeftAttack") && EnterTrigger == true)
+        if (Input.GetButtonDown("LeftAttack") && EnterTrigger == true)
+        {
+            DoorState++;
+
+            if (DoorState == 1)
             {
-                DoorState++;
+                LD.SetBool("Open", true);
+                RD.SetBool("Open", true);
+                LD.SetBool("Closed", false);
+                RD.SetBool("Closed", false);
 
-                if (DoorState == 1)
-                {
-                    LD.SetBool("Open", true);
-                    RD.SetBool("Open", true);
-                    LD.SetBool("Closed", false);
-                    RD.SetBool("Closed", false);
-                    
-                    IsDoorOpen = true;
-                    EnterTrigger = false;
+                IsDoorOpen = true;
+                EnterTrigger = false;
 
             }
 
-                if (DoorState == 2)
-                {
-                    LD.SetBool("Open", false);
-                    RD.SetBool("Open", false);
-                    LD.SetBool("Closed", true);
-                    RD.SetBool("Closed", true);
+            if (DoorState == 2)
+            {
+                LD.SetBool("Open", false);
+                RD.SetBool("Open", false);
+                LD.SetBool("Closed", true);
+                RD.SetBool("Closed", true);
 
-                    IsDoorOpen = false;
-                    EnterTrigger = false;
+                IsDoorOpen = false;
+                EnterTrigger = false;
 
-                    DoorState = 0;
-
-                }
-
-
-                OpenDoorSound.Play();
+                DoorState = 0;
 
             }
+
+
+            OpenDoorSound.Play();
+
+        }
     }
 
     IEnumerator LightTimer()
@@ -123,7 +122,7 @@ public class DoorController : MonoBehaviour
     {
         if (IsDoorOpen == true)
         {
-           
+
             CutcutsceneCam.SetActive(true);
             NormalCam.SetActive(false);
             yield return new WaitForSeconds(2.5f);
