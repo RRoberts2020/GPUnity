@@ -30683,6 +30683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MouseSensitivity: 50
+  camera: {fileID: 1917497624}
 --- !u!1 &1925777037
 GameObject:
   m_ObjectHideFlags: 0

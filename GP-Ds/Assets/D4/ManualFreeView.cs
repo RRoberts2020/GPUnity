@@ -10,6 +10,8 @@ public class ManualFreeView : MonoBehaviour
 
     private Transform parent;
 
+    public Transform camera;
+
     private void Start()
     {
         parent = transform.parent;
@@ -29,7 +31,8 @@ public class ManualFreeView : MonoBehaviour
 
         float mouseY = Input.GetAxis("Mouse Y") * MouseSensitivity * Time.deltaTime;
 
-        parent.Rotate(Vector3.down, mouseY);
+        camera.Rotate(Vector3.right, mouseY);
+
     }
 
 }
