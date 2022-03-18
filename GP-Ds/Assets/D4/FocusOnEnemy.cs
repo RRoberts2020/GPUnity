@@ -8,7 +8,7 @@ public class FocusOnEnemy : MonoBehaviour
     public bool EnterTrigger;
     public GameObject FocusCam;
     public GameObject NormalCam;
-
+    public GameObject targetOjbect;
 
     static int FocusState;
 
@@ -29,8 +29,6 @@ public class FocusOnEnemy : MonoBehaviour
 
         }
     }
-
-
 
     void OnTriggerEnter(Collider other)
     {
@@ -64,6 +62,7 @@ public class FocusOnEnemy : MonoBehaviour
 
                 NormalCam.SetActive(false);
                 FocusCam.SetActive(true);
+                FocusCam.transform.LookAt(targetOjbect.transform);
 
             }
 

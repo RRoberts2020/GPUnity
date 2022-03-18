@@ -985,7 +985,10 @@ MonoBehaviour:
       m_Calls: []
   m_text: 'Left stick - Walk / select
 
-    Right stick - look
+    Right stick - look around
+
+    Left bumper
+    - Focus
 
 
 '
