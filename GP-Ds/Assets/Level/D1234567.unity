@@ -24542,7 +24542,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   splineCam: {fileID: 1645807723}
   normalCam: {fileID: 1917497623}
-  enterTrigger: 0
 --- !u!65 &1303521995
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -29949,7 +29948,7 @@ GameObject:
   - component: {fileID: 1645807725}
   - component: {fileID: 1645807724}
   m_Layer: 0
-  m_Name: Camera
+  m_Name: SplineCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
