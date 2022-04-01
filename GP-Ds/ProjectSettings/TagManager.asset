@@ -11,6 +11,7 @@ TagManager:
   - RightDoor
   - Enemy
   - FocusTrigger
+  - Spline
   layers:
   - Default
   - TransparentFX

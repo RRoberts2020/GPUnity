@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using PathCreation.Utility;
 using UnityEngine;
 
@@ -147,6 +148,11 @@ namespace PathCreation {
                     }
                 }
             }
+        }
+
+        public Vector3 GetPointAtDistance(Func<object, object, object, float> dstTravelled)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using PathCreation;
 
 public class PlayerMovementV3 : MonoBehaviour
 {
+
+    public GameObject player;
     
     PlayerGamepadInput PlayerController;
     CharacterController InnerCharacterController;
     Animator anim;
 
     Vector2 currentMovementInput;
-    Vector3 currentMovement;
+    Vector3 currentWalkMovement;
     Vector3 currentRunMovement;
     Vector3 localapplyedmovement;
     bool isMovementPressed;
@@ -26,6 +29,16 @@ public class PlayerMovementV3 : MonoBehaviour
     [SerializeField] private float Gravity;
     [SerializeField] private float JumpHeight;
 
+    //Spline path
+
+    public PathCreator pathCreator;
+    public EndOfPathInstruction end; // What will happen if the end of path is reached
+    float dstTravelled;
+
+    public Quaternion setPlayerSplineRotation;
+
+    bool playerSpline;
+
     void Awake()
     {
         PlayerController = new PlayerGamepadInput();
@@ -38,14 +51,15 @@ public class PlayerMovementV3 : MonoBehaviour
         PlayerController.CharacterControls.Run.started += OnRun;
         PlayerController.CharacterControls.Run.canceled += OnRun;
 
+        setPlayerSplineRotation = transform.rotation;
     }
 
 
     void OnMovementInput(InputAction.CallbackContext context)
     {
         currentMovementInput = context.ReadValue<Vector2>();
-        currentMovement.x = currentMovementInput.x;
-        currentMovement.z = currentMovementInput.y;
+        currentWalkMovement.x = currentMovementInput.x;
+        currentWalkMovement.z = currentMovementInput.y;
         currentRunMovement.x = currentMovementInput.x * 7.5f;
         currentRunMovement.z = currentMovementInput.y * 7.5f;
         isMovementPressed = currentMovementInput.x != 0 || currentMovementInput.y != 0;
@@ -149,7 +163,7 @@ public class PlayerMovementV3 : MonoBehaviour
         }
         else
         {
-            localapplyedmovement = transform.TransformDirection(currentMovement);
+            localapplyedmovement = transform.TransformDirection(currentWalkMovement);
         }
 
         InnerCharacterController.Move(localapplyedmovement * Time.deltaTime);
@@ -157,6 +171,23 @@ public class PlayerMovementV3 : MonoBehaviour
         OnJump();
 
         OnInteract();
+
+       
+
+        if (playerSpline == true)
+        {
+
+            transform.rotation = setPlayerSplineRotation;
+
+            //Z and y axis
+            dstTravelled = currentWalkMovement.z = currentMovementInput.y;
+            dstTravelled = currentRunMovement.z = currentMovementInput.y * 7.5f;
+
+            //X axis
+            currentWalkMovement.x = currentMovementInput.x * 0.0f;
+            currentRunMovement.x = currentMovementInput.x * 0.0f;
+            OnJump();
+        }
 
     }
 
@@ -168,5 +199,21 @@ public class PlayerMovementV3 : MonoBehaviour
     void OnDisable()
     {
         PlayerController.CharacterControls.Disable();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Spline"))
+        {
+            playerSpline = true;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Spline"))
+        {
+            playerSpline = false;
+        }
     }
 }
