@@ -13,6 +13,10 @@ public class EnemyStates : MonoBehaviour
 
     public PlayerHealth enemyHurtsPlayer;
 
+    public bool playerCanAttack;
+
+    public ParticleSystem fireAttack;
+
 
 
     //Patroling
@@ -106,10 +110,15 @@ public class EnemyStates : MonoBehaviour
 
         transform.LookAt(player);
 
+        //Player is within range of enemy
+        playerCanAttack = true;
+
         if (!alreadyAttacked)
         {
+
             enemyHurtsPlayer.playerTakesDamage = true;
             alreadyAttacked = true;
+            fireAttack.Play();
             enemyHurtsPlayer.TakeDamage(20);
             Invoke(nameof(RestAttack), timeBetweenAttackes);
         }
@@ -118,6 +127,7 @@ public class EnemyStates : MonoBehaviour
     public void RestAttack()
     {
         alreadyAttacked = false;
+        fireAttack.Stop();
     }
 
     private void OnDrawGizmosSelected()

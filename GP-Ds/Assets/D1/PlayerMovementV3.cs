@@ -20,8 +20,6 @@ public class PlayerMovementV3 : MonoBehaviour
     bool isMovementPressed;
     bool isRunPressed;
 
-    public PlayerHealth Die;
-
     //Jumping
     private Vector3 JumpVelocity;
 
@@ -40,6 +38,13 @@ public class PlayerMovementV3 : MonoBehaviour
     public Quaternion setPlayerSplineRotation;
 
     bool playerSpline;
+
+    //Attacking
+    public PlayerHealth playerDie;
+    public EnemyHealth playerHurtsEnemy;
+    public EnemyStates canPlayerHurtEnemy;
+
+
 
     void Awake()
     {
@@ -112,7 +117,6 @@ public class PlayerMovementV3 : MonoBehaviour
             if (Input.GetButtonDown("Interact"))
             {
                 anim.SetBool("isInteract", true);
-                Debug.Log("Left Attack triggered");
             }
     }
 
@@ -171,7 +175,9 @@ public class PlayerMovementV3 : MonoBehaviour
 
         OnJump();
 
-        OnInteract();    
+        OnInteract();
+
+        Attack();
 
         if (playerSpline == true)
         {
@@ -188,7 +194,8 @@ public class PlayerMovementV3 : MonoBehaviour
             OnJump();
         }
 
-        if (Die.Death == true)
+        //If player's health reaches 0
+        if (playerDie.playerDeath == true)
         {
 
             anim.SetBool("isDead", true);
@@ -198,8 +205,30 @@ public class PlayerMovementV3 : MonoBehaviour
             anim.SetBool("isJumping", false);
             anim.SetBool("isInteract", false);
             anim.SetBool("isJumping", false);
+            anim.SetBool("isAttack", false);
+
 
             PlayerController.CharacterControls.Disable();
+        }
+
+    }
+
+
+    public void Attack()
+    {
+
+        if (Input.GetButtonDown("Attack") && canPlayerHurtEnemy.playerCanAttack == true)
+        {
+            anim.SetTrigger("isAttack");
+            playerHurtsEnemy.enemyTakesDamage = true;
+            playerHurtsEnemy.TakeDamage(5);
+            Debug.Log("Player has hurt enemy");
+        }
+        else if (Input.GetButtonDown("Attack") && canPlayerHurtEnemy.playerCanAttack == false)
+        {
+            anim.SetTrigger("isAttack");
+            //Player is out of range of enemy and can not hurt it
+            Debug.Log("Player has not hurt enemy");
         }
 
     }
