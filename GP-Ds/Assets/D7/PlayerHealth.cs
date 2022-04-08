@@ -11,6 +11,12 @@ public class PlayerHealth : MonoBehaviour
 
     public HealthBar healthBar;
 
+    public bool playerTakesDamage;
+
+    public bool Death;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,15 +25,15 @@ public class PlayerHealth : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (currentHealth <= 0)
         {
-            TakeDamage(20);
+            Death = true;
         }
     }
 
-    void TakeDamage(int damage)
+    public void TakeDamage(int damage)
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);

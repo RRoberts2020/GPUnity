@@ -9,7 +9,11 @@ public class EnemyStates : MonoBehaviour
 
     public Transform player;
 
-    public LayerMask Ground, whatIsPlayer;
+    public LayerMask whatIsGround, whatIsPlayer;
+
+    public PlayerHealth enemyHurtsPlayer;
+
+
 
     //Patroling
     public Vector3 walkPoint;
@@ -18,7 +22,7 @@ public class EnemyStates : MonoBehaviour
 
     //Attacking
     public float timeBetweenAttackes;
-    bool alreadyAttacked;
+    bool alreadyAttacked = false;
 
     //States
     public float sightRange, attackRange;
@@ -34,25 +38,48 @@ public class EnemyStates : MonoBehaviour
     {
         //Check for sight and attack range
         playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        if (!playerInSightRange && !playerInAttackRange) Patroling();
-        if (playerInSightRange && !playerInAttackRange) ChasePlayer();
-        if (playerInSightRange && playerInAttackRange) AttackPlayer();
+        if (!playerInSightRange && !playerInAttackRange)
+        {
+            Patrolling();
+            //Debug.Log("Patrolling");
+        }
+
+        if (playerInSightRange && !playerInAttackRange)
+        {
+            ChasePlayer();
+            //Debug.Log("Chasing Player");
+        }
+
+        if (playerInSightRange && playerInAttackRange)
+        {
+            AttackPlayer();
+            //Debug.Log("Attacking player");
+        }
 
     }
 
-    private void Patroling()
+    private void Patrolling()
     {
-        if (!walkPointSet) SearchWalkPoint();
+        if (!walkPointSet)
+        {
+            SearchWalkPoint();
+        }
 
-        if (walkPointSet) 
+        if (walkPointSet)
+        {
             agent.SetDestination(walkPoint);
+        }
+           
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         if (distanceToWalkPoint.magnitude < 1f)
+        {
             walkPointSet = false;
+        }
+          
             
     }
     private void SearchWalkPoint()
@@ -62,7 +89,7 @@ public class EnemyStates : MonoBehaviour
 
         walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
    
-        if (Physics.Raycast(walkPoint, -transform.up, 2f, Ground))
+        if (Physics.Raycast(walkPoint, -transform.up, 2.5f, whatIsGround))
         {
             walkPointSet = true;
         }
@@ -73,7 +100,7 @@ public class EnemyStates : MonoBehaviour
         agent.SetDestination(player.position);
     }
 
-    private void AttackPlayer()
+    public void AttackPlayer()
     {
         agent.SetDestination(transform.position);
 
@@ -81,15 +108,14 @@ public class EnemyStates : MonoBehaviour
 
         if (!alreadyAttacked)
         {
-
-            //Attack code here
-
+            enemyHurtsPlayer.playerTakesDamage = true;
             alreadyAttacked = true;
+            enemyHurtsPlayer.TakeDamage(20);
             Invoke(nameof(RestAttack), timeBetweenAttackes);
         }
     }
 
-    private void RestAttack()
+    public void RestAttack()
     {
         alreadyAttacked = false;
     }

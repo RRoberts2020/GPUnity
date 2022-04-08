@@ -20,6 +20,8 @@ public class PlayerMovementV3 : MonoBehaviour
     bool isMovementPressed;
     bool isRunPressed;
 
+    public PlayerHealth Die;
+
     //Jumping
     private Vector3 JumpVelocity;
 
@@ -115,7 +117,6 @@ public class PlayerMovementV3 : MonoBehaviour
     }
 
 
-
     void HandleAnimation()
     {
        bool isWalking = anim.GetBool("isWalking");
@@ -170,9 +171,7 @@ public class PlayerMovementV3 : MonoBehaviour
 
         OnJump();
 
-        OnInteract();
-
-       
+        OnInteract();    
 
         if (playerSpline == true)
         {
@@ -187,6 +186,20 @@ public class PlayerMovementV3 : MonoBehaviour
             currentWalkMovement.x = currentMovementInput.x * 0.0f;
             currentRunMovement.x = currentMovementInput.x * 0.0f;
             OnJump();
+        }
+
+        if (Die.Death == true)
+        {
+
+            anim.SetBool("isDead", true);
+
+            anim.SetBool("isWalking", false);
+            anim.SetBool("isRunning", false);
+            anim.SetBool("isJumping", false);
+            anim.SetBool("isInteract", false);
+            anim.SetBool("isJumping", false);
+
+            PlayerController.CharacterControls.Disable();
         }
 
     }
